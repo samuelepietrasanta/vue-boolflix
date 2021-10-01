@@ -1,17 +1,14 @@
 <template>
-  <div>
-    <div id="app" class="d-flex">
+  <div id="app">
+    <div class="searchbar">
       <input v-model="filmUtente" type="text" placeholder="Inserisce il nome del film">
-      <button @click='Stampa()' class="btn btn-primary"> prova </button>
-    </div>
-
-
-    <div>
-      <h2>{{prova}}</h2>
+      <button @click='stampa()' class="btn btn-primary"> prova </button>
     </div>
 
     <ul>
-      <li></li>
+      <li><Film  v-for="(film,index) in tuttiIFilm" :key="index" 
+                :title="film.title" :original_title="film.original_title"
+                :original_language="film.original_language" :vote="film.vote_average" /> </li>
     </ul>
 
   </div>
@@ -19,19 +16,19 @@
 
 <script>
 import axios from 'axios'
+import Film from './components/Film.vue'
 
 
 export default {
   name: 'App',
   components: {
+    Film
   },
   data(){
     return{
-      prova: '',
       filmUtente : '',
+      tuttiIFilm : []
     }
-    
-
   },
 
   /* mounted(){
@@ -43,11 +40,20 @@ export default {
   }, */
 
   methods: {  
-    Stampa(){
-      axios.get('https://api.themoviedb.org/3/search/movie?api_key=403992ffc6869ff17454611af19a8ef3&query=' + this.filmUtente)
-      .then((risposta =>{
-      this.prova = risposta.data.results[0].id;}))
-        console.log(this.filmUtente)
+    stampa(){
+      axios.get('https://api.themoviedb.org/3/search/movie' , {
+        params:{
+          api_key:'403992ffc6869ff17454611af19a8ef3',
+          query: this.filmUtente
+
+        }
+      })
+      .then(risposta =>{
+      this.tuttiIFilm = risposta.data.results.slice()
+      console.log(this.tuttiIFilm) })
+        
+      console.log(this.filmUtente);
+        
       }
 
   }
@@ -58,7 +64,21 @@ export default {
 <style lang="scss">
 
 @import '~bootstrap/dist/css/bootstrap.min.css';
-#app {
+
+#app{
+  ul{
+    li{
+      list-style-type: none;
+    }
+  }
+
+  .searchbar {
+  display: flex;
   justify-content: center;
+  margin-bottom: 50px;
 }
+
+}
+
+
 </style>
