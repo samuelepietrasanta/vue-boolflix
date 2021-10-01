@@ -31,14 +31,6 @@ export default {
     }
   },
 
-  /* mounted(){
-    axios.get('https://api.themoviedb.org/3/search/movie?api_key=403992ffc6869ff17454611af19a8ef3&query' + this.filmUtente)
-    .then((risposta =>{
-      this.prova = risposta.data.results[0].adult;
-
-    }))
-  }, */
-
   methods: {  
     stampa(){
       axios.get('https://api.themoviedb.org/3/search/movie' , {
