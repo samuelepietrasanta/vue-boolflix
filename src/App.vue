@@ -2,13 +2,15 @@
   <div id="app">
     <div class="searchbar">
       <input v-model="filmUtente" type="text" placeholder="Inserisce il nome del film">
-      <button @click='stampa()' class="btn btn-primary"> prova </button>
+      <button @click='stampa()' class="btn btn-primary"> Cerca </button>
     </div>
 
     <ul>
       <li><Film  v-for="(film,index) in tuttiIFilm" :key="index" 
                 :title="film.title" :original_title="film.original_title"
-                :original_language="film.original_language" :vote="film.vote_average" /> </li>
+                :original_language="film.original_language" :vote="film.vote_average"
+                :imageSource="film.backdrop_path" /> 
+      </li>
     </ul>
 
   </div>
@@ -33,6 +35,7 @@ export default {
 
   methods: {  
     stampa(){
+      this.tuttiIFilm = []
       axios.get('https://api.themoviedb.org/3/search/movie' , {
         params:{
           api_key:'403992ffc6869ff17454611af19a8ef3',
@@ -41,12 +44,9 @@ export default {
         }
       })
       .then(risposta =>{
-      this.tuttiIFilm = risposta.data.results.slice()
-      console.log(this.tuttiIFilm) })
-        
-      console.log(this.filmUtente);
-        
-      }
+      this.tuttiIFilm = risposta.data.results.slice()})
+      ;
+    }
 
   }
 

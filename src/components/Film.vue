@@ -1,9 +1,11 @@
 <template>
   <div class="card">
 
+    <img class="image" :src=backImageSource  alt="IMMAGINE NON DISPONIBILE">
+
    <h4>TITOLO : {{title}}</h4>
    <h4>TITOLO ORIGINALE : {{original_title}}</h4>
-   <span>LINGUA ORIGINALE: </span><img :src=flagSource alt="niente">
+   <span>LINGUA ORIGINALE: </span><img class="flag" :src=flagSource alt="niente">
    <h6>VOTO MEDIO :{{vote}}</h6>
     
   </div>
@@ -16,17 +18,21 @@ export default {
     title: String ,
     original_title: String,
     original_language: String,
-    vote: Number
+    vote: Number,
+    imageSource:String,
   },
 
   data(){
     return{
-      flagSource : ''
+      flagSource : '',
+      backImageSource:''
     }
   },
 
   mounted(){
-    this.sourceGenerator(this.original_language)
+    this.sourceGenerator(this.original_language);
+    this.ImageSourceGenerator(this.imageSource)
+
   },
 
   methods : {
@@ -38,6 +44,19 @@ export default {
       }else{
         this.flagSource = 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Nuvola_unknown_flag.svg/1200px-Nuvola_unknown_flag.svg.png'
       }
+    },
+    ImageSourceGenerator(url){
+
+      if(url == null){
+        this.backImageSource = 'https://pics.me.me/error-404-woops-looks-like-this-page-doesnt-exist-33139487.png'
+      }else{
+        this.backImageSource = 'https://image.tmdb.org/t/p/w342/' + url
+
+      }
+
+      
+
+
     }
 
   }
@@ -47,14 +66,20 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 
 .card{
   max-width: 500px;
   margin-bottom:20px;
   background-color:rgb(186, 240, 222);
 
-  img{
+  .image{
+
+    width:500px;
+
+  };
+
+  .flag{
     width: 50px;
   }
 }
